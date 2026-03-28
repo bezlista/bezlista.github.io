@@ -29,6 +29,11 @@ a:hover{border-color:var(--w)}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 @keyframes borderPulse{0%,100%{border-color:var(--border)}50%{border-color:rgba(255,255,255,.12)}}
+@keyframes tgPulse{0%,100%{box-shadow:0 8px 32px rgba(0,136,204,.4),0 0 60px rgba(0,136,204,.2)}50%{box-shadow:0 8px 32px rgba(0,136,204,.6),0 0 80px rgba(0,136,204,.4)}}
+@keyframes glow{0%,100%{box-shadow:0 0 5px currentColor}50%{box-shadow:0 0 20px currentColor}}
+@keyframes scaleIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slideInLeft{from{transform:translateX(-20px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes bounceIn{0%{transform:scale(.3);opacity:0}50%{transform:scale(1.05)}70%{transform:scale(.9)}100%{transform:scale(1);opacity:1}}
 
 .anim{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.16,1,.3,1)}
 .anim.vis{opacity:1;transform:translateY(0)}
@@ -213,20 +218,23 @@ footer p+p{margin-top:10px}
 <span class="badge">Главная</span>
 </div>
 <p class="config-desc">Готовый конфиг для подключения. Импортируйте в <strong>v2rayN, Nekoray, v2rayNG, Streisand, Hiddify</strong>. Работает сразу после импорта — никаких дополнительных настроек не требуется.</p>
-<div style="display:flex;gap:12px;flex-wrap:wrap">
 <a class="config-btn" onclick="copyConfig()">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
 <span>Скопировать ссылку</span>
 </a>
-<a class="config-btn" href="https://raw.githubusercontent.com/bezlista/bezlista.github.io/refs/heads/main/conf1g.txt" target="_blank" style="background:var(--card);color:var(--w);border:1px solid var(--border)">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-<span>Открыть в клиенте</span>
-</a>
-</div>
 <div class="config-meta">
 <div>Протокол: <span>VLESS + Reality</span></div>
 <div>Обновлено: <span id="configDate">загрузка...</span></div>
 </div>
+<div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap">
+<a href="https://bezlista.t.me" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#0088cc,#0077b5);color:#fff;border-radius:10px;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .3s;box-shadow:0 4px 16px rgba(0,136,204,.3)"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg><span>Telegram</span></a>
+<a href="https://boosty.to/bezlista" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#f05a28,#e64a19);color:#fff;border-radius:10px;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .3s;box-shadow:0 4px 16px rgba(240,90,40,.3)"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span>Boosty</span></a>
+</div>
+</div>
+
+<div style="background:var(--card);border:1px solid #DC143C;border-radius:12px;padding:20px 24px;margin-bottom:40px;display:flex;align-items:flex-start;gap:16px">
+<span style="color:#DC143C;font-size:1.2rem;flex-shrink:0">⚠</span>
+<div><p style="color:var(--dim);font-size:.88rem;line-height:1.6;margin:0"><strong style="color:#DC143C">Telega</strong> — содержит телеметрию и слежку. Не используйте. <a href="https://dontusetelega.lol" target="_blank" style="color:#DC143C">Подробнее →</a></p></div>
 </div>
 
 <div class="section">
@@ -251,6 +259,8 @@ footer p+p{margin-top:10px}
 <div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Streisand</h3><p>Для iOS/macOS. Open source клиент, поддержка VLESS, Trojan, Shadowsocks. Есть в App Store.</p><a href="https://apps.apple.com/app/streisand/id6451078496" target="_blank" rel="noopener">App Store →</a></div></div>
 <div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>v2rayA</h3><p>Веб-интерфейс для управления V2Ray. Установите на сервер и управляйте через браузер.</p><a href="https://github.com/v2rayA/v2rayA" target="_blank" rel="noopener">github.com/v2rayA/v2rayA →</a></div></div>
 <div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Happ</h3><p>Для Windows/macOS/Linux. Многофункциональный VPN-клиент с поддержкой множества протоколов. Удобный интерфейс и автоматическая настройка.</p><a href="https://www.happ.su/main/ru" target="_blank" rel="noopener">happ.su →</a></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>NapsternetV</h3><p>Для Android. Клиент с поддержкой VLESS, VMess, Trojan. Доступен в Google Play, работает в РФ.</p><a href="https://play.google.com/store/apps/details?id=com.aaron.napsternetv" target="_blank" rel="noopener">Google Play →</a></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>V2Box</h3><p>Для Android. Простой клиент с поддержкой VLESS и подписок. Доступен в Google Play для РФ.</p><a href="https://play.google.com/store/apps/details?id=com.v2box.app" target="_blank" rel="noopener">Google Play →</a></div></div>
 </div>
 
 <div class="section">
@@ -330,6 +340,23 @@ footer p+p{margin-top:10px}
 
 <div class="section">
 <div class="section-num anim">04</div>
+<h2 class="anim">Новостные источники</h2>
+<p class="section-desc anim">СМИ с открытым доступом. Работают через VPN или зеркала.</p>
+
+<div class="tool anim" style="border-left:3px solid #FF6B00;padding-left:16px"><div class="tool-icon" style="box-shadow:0 0 20px rgba(255,107,0,.3)">⊡</div><div class="tool-info"><h3 style="color:#FF6B00">Meduza <span style="font-size:.65rem;background:#FF6B00;color:#fff;padding:2px 8px;border-radius:4px;margin-left:8px;vertical-align:middle">РЕКОМЕНДУЕМ</span></h3><p style="color:var(--accent)">Независимая журналистика, расследования. Лучшее русскоязычное СМИ. Причина блокировки: признано «иноагентом».</p><a href="https://meduza.io" target="_blank" rel="noopener">meduza.io →</a><div style="display:flex;gap:3px;margin-top:8px"><span style="width:8px;height:8px;background:#FF6B00;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#FF6B00;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#FF6B00;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#FF6B00;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#FF6B00;border-radius:2px;display:inline-block"></span></div></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Дождь (TV Rain)</h3><p>Независимый телеканал. Причина блокировки: критика войны в Украине.</p><a href="https://tvrain.tv" target="_blank" rel="noopener">tvrain.tv →</a><div style="display:flex;gap:3px;margin-top:8px"><span style="width:8px;height:8px;background:#1E90FF;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#1E90FF;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#1E90FF;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#1E90FF;border-radius:2px;display:inline-block"></span></div></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>The Insider</h3><p>Расследовательское СМИ. Причина блокировки: раскрытие коррупции и фейков.</p><a href="https://theins.ru" target="_blank" rel="noopener">theins.ru →</a><div style="display:flex;gap:3px;margin-top:8px"><span style="width:8px;height:8px;background:#DC143C;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#DC143C;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#DC143C;border-radius:2px;display:inline-block"></span></div></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Настоящее Время</h3><p>Телеканал от RFE/RL. Причина блокировки: финансируется из-за рубежа.</p><a href="https://currenttime.tv" target="_blank" rel="noopener">currenttime.tv →</a><div style="display:flex;gap:3px;margin-top:8px"><span style="width:8px;height:8px;background:#4682B4;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#4682B4;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#4682B4;border-radius:2px;display:inline-block"></span></div></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Новая Газета Европа</h3><p>Продолжение «Новой газеты». Причина блокировки: антивоенная позиция.</p><a href="https://novayagazeta.eu" target="_blank" rel="noopener">novayagazeta.eu →</a><div style="display:flex;gap:3px;margin-top:8px"><span style="width:8px;height:8px;background:#2F4F4F;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#2F4F4F;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#2F4F4F;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#2F4F4F;border-radius:2px;display:inline-block"></span></div></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Холод</h3><p>Новостное медиа. Причина блокировки: независимая редакционная политика.</p><a href="https://holod.media" target="_blank" rel="noopener">holod.media →</a><div style="display:flex;gap:3px;margin-top:8px"><span style="width:8px;height:8px;background:#87CEEB;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#87CEEB;border-radius:2px;display:inline-block"></span></div></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Важные Истории</h3><p>Расследовательский проект. Причина блокировки: раскрытие коррупции власти.</p><a href="https://istories.media" target="_blank" rel="noopener">istories.media →</a><div style="display:flex;gap:3px;margin-top:8px"><span style="width:8px;height:8px;background:#6A5ACD;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#6A5ACD;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#6A5ACD;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#6A5ACD;border-radius:2px;display:inline-block"></span></div></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Радио Свобода</h3><p>Русская служба RFE/RL. Причина блокировки: финансируется из-за рубежа.</p><a href="https://svoboda.org" target="_blank" rel="noopener">svoboda.org →</a><div style="display:flex;gap:3px;margin-top:8px"><span style="width:8px;height:8px;background:#B22222;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#B22222;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#B22222;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#B22222;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#B22222;border-radius:2px;display:inline-block"></span></div></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>BBC News Русская служба</h3><p>Мировые новости. Причина блокировки: независимая журналистика.</p><a href="https://www.bbc.com/russian" target="_blank" rel="noopener">bbc.com/russian →</a><div style="display:flex;gap:3px;margin-top:8px"><span style="width:8px;height:8px;background:#1C1C1C;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#1C1C1C;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#1C1C1C;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#1C1C1C;border-radius:2px;display:inline-block"></span></div></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Немецкая Волна</h3><p>Deutsche Welle. Причина блокировки: иностранное СМИ.</p><a href="https://www.dw.com/ru" target="_blank" rel="noopener">dw.com/ru →</a><div style="display:flex;gap:3px;margin-top:8px"><span style="width:8px;height:8px;background:#006400;border-radius:2px;display:inline-block"></span><span style="width:8px;height:8px;background:#006400;border-radius:2px;display:inline-block"></span></div></div></div>
+</div>
+
+<div class="section">
+<div class="section-num anim">05</div>
 <h2 class="anim">Помочь проекту</h2>
 <p class="section-desc anim">Проект существует только благодаря сообществу. Любая помощь ценна.</p>
 <ul class="help-list">
@@ -368,6 +395,7 @@ function toggleProxy(){var l=document.getElementById('proxyList'),h=l.previousEl
 function copyConfig(){var url='https://raw.githubusercontent.com/bezlista/bezlista.github.io/refs/heads/main/conf1g.txt';navigator.clipboard.writeText(url).then(function(){var b=document.querySelector('.config-btn'),o=b.innerHTML;b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Скопировано</span>';setTimeout(function(){b.innerHTML=o},2000)})}
 function clip(el,e){e.preventDefault();e.stopPropagation();var txt=el.textContent.trim();navigator.clipboard.writeText(txt).then(function(){var d=document.createElement('div');d.className='copied';d.textContent='Скопировано: '+txt;document.body.appendChild(d);setTimeout(function(){d.remove()},2000)})}
 function filterProxy(q){q=q.toLowerCase();document.querySelectorAll('.proxy-link').forEach(function(el){el.style.display=el.textContent.toLowerCase().indexOf(q)>-1?'':'none'})}
+function openInClient(){var url='https://raw.githubusercontent.com/bezlista/bezlista.github.io/refs/heads/main/conf1g.txt';window.open(url,'_blank')}
 function formatDate(d){var months=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];var date=new Date(d);return date.getDate()+' '+months[date.getMonth()]+' '+date.getFullYear()}
 fetch('https://api.github.com/repos/bezlista/bezlista.github.io/commits?path=conf1g.txt&per_page=1').then(function(r){return r.json()}).then(function(c){if(c.length){document.getElementById('configDate').textContent=formatDate(c[0].commit.committer.date)}}).catch(function(){document.getElementById('configDate').textContent='март 2026'})
 </script>
