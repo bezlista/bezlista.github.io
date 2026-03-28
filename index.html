@@ -213,13 +213,19 @@ footer p+p{margin-top:10px}
 <span class="badge">Главная</span>
 </div>
 <p class="config-desc">Готовый конфиг для подключения. Импортируйте в <strong>v2rayN, Nekoray, v2rayNG, Streisand, Hiddify</strong>. Работает сразу после импорта — никаких дополнительных настроек не требуется.</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap">
 <a class="config-btn" onclick="copyConfig()">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
 <span>Скопировать ссылку</span>
 </a>
+<a class="config-btn" href="https://raw.githubusercontent.com/bezlista/bezlista.github.io/refs/heads/main/conf1g.txt" target="_blank" style="background:var(--card);color:var(--w);border:1px solid var(--border)">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+<span>Открыть в клиенте</span>
+</a>
+</div>
 <div class="config-meta">
 <div>Протокол: <span>VLESS + Reality</span></div>
-<div>Обновлено: <span>март 2026</span></div>
+<div>Обновлено: <span id="configDate">загрузка...</span></div>
 </div>
 </div>
 
@@ -349,7 +355,7 @@ footer p+p{margin-top:10px}
 
 <footer>
 <div class="wrap">
-<p>bezlista — <a href="https://github.com/byrbyrka/bezlista.github.io" target="_blank">github</a> · <a href="https://bezlista.t.me" target="_blank">telegram</a></p>
+<p>bezlista — <a href="https://github.com/bezlista/bezlista.github.io" target="_blank">github</a> · <a href="https://bezlista.t.me" target="_blank">telegram</a></p>
 <p>ссылка не работает — <a href="https://t.me/bezlista_support" target="_blank">написать</a></p>
 </div>
 </footer>
@@ -359,9 +365,11 @@ var obs=new IntersectionObserver(function(e){e.forEach(function(i){if(i.isInters
 document.querySelectorAll('.anim').forEach(function(el){obs.observe(el)});
 window.addEventListener('scroll',function(){document.getElementById('top').classList.toggle('show',window.scrollY>500)});
 function toggleProxy(){var l=document.getElementById('proxyList'),h=l.previousElementSibling;l.classList.toggle('show');h.classList.toggle('open')}
-function copyConfig(){var url='https://raw.githubusercontent.com/byrbyrka/bezlista.github.io/refs/heads/main/conf1g.txt';navigator.clipboard.writeText(url).then(function(){var b=document.querySelector('.config-btn'),o=b.innerHTML;b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Скопировано</span>';setTimeout(function(){b.innerHTML=o},2000)})}
+function copyConfig(){var url='https://raw.githubusercontent.com/bezlista/bezlista.github.io/refs/heads/main/conf1g.txt';navigator.clipboard.writeText(url).then(function(){var b=document.querySelector('.config-btn'),o=b.innerHTML;b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Скопировано</span>';setTimeout(function(){b.innerHTML=o},2000)})}
 function clip(el,e){e.preventDefault();e.stopPropagation();var txt=el.textContent.trim();navigator.clipboard.writeText(txt).then(function(){var d=document.createElement('div');d.className='copied';d.textContent='Скопировано: '+txt;document.body.appendChild(d);setTimeout(function(){d.remove()},2000)})}
 function filterProxy(q){q=q.toLowerCase();document.querySelectorAll('.proxy-link').forEach(function(el){el.style.display=el.textContent.toLowerCase().indexOf(q)>-1?'':'none'})}
+function formatDate(d){var months=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];var date=new Date(d);return date.getDate()+' '+months[date.getMonth()]+' '+date.getFullYear()}
+fetch('https://api.github.com/repos/bezlista/bezlista.github.io/commits?path=conf1g.txt&per_page=1').then(function(r){return r.json()}).then(function(c){if(c.length){document.getElementById('configDate').textContent=formatDate(c[0].commit.committer.date)}}).catch(function(){document.getElementById('configDate').textContent='март 2026'})
 </script>
 </body>
 </html>
