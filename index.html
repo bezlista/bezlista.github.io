@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bezlista</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:title" content="bezlista">
+<meta property="og:description" content="Открытый набор инструментов для обхода блокировок">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#000">
+<link rel="manifest" href="manifest.json">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#000;--card:#0a0b0e;--border:#1c1e24;--text:#e0e0e0;--dim:#7a7f87;--mute:#484d55;--w:#fff;--accent:#e8e8e8}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;background-image:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(255,255,255,.05) 0%,transparent 70%)}
+
+.wrap{max-width:720px;margin:0 auto;padding:0 24px}
+a{color:var(--w);text-decoration:none;border-bottom:1px solid var(--border);transition:all .3s}
+a:hover{border-color:var(--w)}
+
+/* ANIM */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes lineGrow{from{width:0}to{width:60px}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes borderPulse{0%,100%{border-color:var(--border)}50%{border-color:rgba(255,255,255,.12)}}
+
+.anim{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.16,1,.3,1)}
+.anim.vis{opacity:1;transform:translateY(0)}
+
+/* BUTTONS */
+#top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:var(--card);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;transition:all .3s;z-index:100;font-size:1.2rem;color:var(--dim)}
+#top.show{opacity:1;visibility:visible}
+#top:hover{border-color:var(--w);color:var(--w);transform:translateY(-2px)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 0;animation:fadeIn 1s;position:relative}
+.hero::before{content:'';position:absolute;top:10%;left:50%;width:1200px;height:1200px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,255,255,.12) 0%,rgba(255,255,255,.04) 25%,rgba(255,255,255,.01) 50%,transparent 65%);pointer-events:none}
+.hero-line{width:80px;height:2px;background:linear-gradient(90deg,var(--w),rgba(255,255,255,.05));margin-bottom:36px;animation:lineGrow 1s ease .3s both}
+.hero-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--mute);margin-bottom:24px;animation:slideRight .8s ease .5s both}
+.hero h1{font-size:clamp(3.5rem,10vw,7rem);font-weight:800;letter-spacing:-4px;line-height:.85;color:var(--w);margin-bottom:28px;animation:slideUp .8s ease .7s both}
+.hero-sub{font-size:1.1rem;color:var(--dim);max-width:420px;line-height:1.8;animation:slideUp .8s ease .9s both}
+.easter{margin-top:56px;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;color:#444;animation:fadeIn 1s ease 2s both}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:48px 0 16px}
+.stat{background:var(--card);padding:28px 20px;text-align:center;transition:background .3s}
+.stat:hover{background:#1a1a1a}
+.stat-num{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--w);margin-bottom:4px}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mute);letter-spacing:2px;text-transform:uppercase}
+
+/* CONFIG */
+.config{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:44px;margin-bottom:16px;position:relative;overflow:hidden;transition:all .4s;animation:borderPulse 4s ease-in-out infinite}
+.config:hover{border-color:rgba(255,255,255,.18);transform:translateY(-4px);box-shadow:0 24px 64px rgba(0,0,0,.6)}
+.config::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 5%,rgba(255,255,255,.3) 50%,transparent 95%);animation:shimmer 4s linear infinite;background-size:200% 100%}
+.config-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.config-top h2{font-size:1.6rem;font-weight:700;color:var(--w);letter-spacing:-.5px}
+.badge{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;background:var(--w);color:var(--bg);padding:5px 14px;border-radius:6px;font-weight:700;animation:pulse 2s ease-in-out infinite}
+.config-desc{color:var(--dim);font-size:.95rem;margin-bottom:28px;line-height:1.8}
+.config-desc strong{color:var(--accent);font-weight:600}
+.config-btn{display:inline-flex;align-items:center;gap:10px;background:var(--w);color:var(--bg);padding:16px 32px;border-radius:12px;font-weight:600;font-size:.95rem;border:none;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);text-decoration:none;position:relative;overflow:hidden}
+.config-btn::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(0,0,0,.08);border-radius:50%;transform:translate(-50%,-50%);transition:width .6s,height .6s}
+.config-btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(255,255,255,.2);border-bottom:none}
+.config-btn:hover::before{width:300px;height:300px}
+.config-btn svg{width:18px;height:18px;position:relative;z-index:1}
+.config-btn span{position:relative;z-index:1}
+.config-meta{display:flex;gap:28px;margin-top:28px;padding-top:24px;border-top:1px solid var(--border)}
+.config-meta div{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--mute);transition:color .3s}
+.config-meta div:hover{color:var(--dim)}
+.config-meta div span{color:var(--dim)}
+
+/* SECTIONS */
+.section{padding:80px 0;border-top:1px solid rgba(255,255,255,.04)}
+.section-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute);letter-spacing:3px;margin-bottom:12px;transition:color .3s}
+.section:hover .section-num{color:var(--dim)}
+.section h2{font-size:1.6rem;font-weight:700;color:var(--w);letter-spacing:-.5px;margin-bottom:10px}
+.section-desc{color:var(--dim);font-size:.9rem;margin-bottom:40px;max-width:560px}
+
+/* TOOLS */
+.tool{display:flex;align-items:flex-start;gap:20px;padding:28px 0;border-bottom:1px solid var(--border);transition:all .3s;position:relative}
+.tool::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(180deg,transparent,rgba(255,255,255,.6),transparent);transition:width .3s}
+.tool:hover{padding-left:16px}
+.tool:hover::before{width:2px}
+.tool:last-child{border-bottom:none}
+.tool-icon{width:48px;height:48px;border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;background:var(--card);transition:all .3s}
+.tool:hover .tool-icon{border-color:rgba(255,255,255,.3);transform:rotate(5deg) scale(1.05);box-shadow:0 4px 16px rgba(255,255,255,.06)}
+.tool-info{flex:1}
+.tool-info h3{font-size:.95rem;font-weight:600;color:var(--w);margin-bottom:6px;transition:transform .3s}
+.tool:hover .tool-info h3{transform:translateX(4px)}
+.tool-info p{font-size:.83rem;color:var(--dim);margin-bottom:12px;line-height:1.6}
+.tool-info a{font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.3px;color:var(--dim);transition:all .3s;border-bottom:1px solid transparent}
+.tool-info a:hover{color:var(--w);letter-spacing:1px;border-bottom-color:var(--w)}
+
+/* PROXY */
+.proxy-box{border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .3s}
+.proxy-box:hover{border-color:rgba(255,255,255,.1)}
+.proxy-header{padding:22px 28px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--card);user-select:none;transition:all .3s}
+.proxy-header:hover{background:#1a1a1a}
+.proxy-header span{font-weight:600;color:var(--w);font-size:.95rem}
+.proxy-header .arrow{color:var(--dim);font-size:1.2rem;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.proxy-header.open .arrow{transform:rotate(180deg)}
+.proxy-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1);padding:0 28px}
+.proxy-body.show{max-height:4000px;padding:4px 28px 24px}
+.search{position:relative;margin-bottom:24px}
+.search input{width:100%;padding:14px 20px 14px 44px;background:var(--card);border:1px solid var(--border);border-radius:12px;color:var(--w);font-family:'Inter',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s}
+.search input:focus{border-color:rgba(255,255,255,.15)}
+.search input::placeholder{color:var(--mute)}
+.search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--mute)}
+.proxy-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);margin:18px 0 12px}
+.proxy-link{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--dim);border-bottom:1px solid rgba(255,255,255,.03);transition:all .2s;cursor:pointer}
+.proxy-link:hover{color:var(--w);padding-left:8px}
+.proxy-link .hint{font-size:.6rem;color:var(--mute);opacity:0;transition:opacity .2s}
+.proxy-link:hover .hint{opacity:1}
+.copied{position:fixed;top:24px;left:50%;transform:translateX(-50%);background:var(--w);color:var(--bg);padding:10px 24px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:600;z-index:200;animation:fadeIn .2s}
+
+/* HELP */
+.help-list{list-style:none}
+.help-list li{padding:14px 0;padding-left:24px;position:relative;color:var(--dim);font-size:.9rem;transition:all .3s}
+.help-list li::before{content:'→';position:absolute;left:0;color:var(--mute);transition:all .3s}
+.help-list li:hover{color:var(--text);padding-left:32px}
+.help-list li:hover::before{color:var(--w)}
+
+/* DONATE */
+.donate{margin-top:32px;padding:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;transition:all .3s}
+.donate:hover{border-color:rgba(255,255,255,.08)}
+.donate-label{font-size:.7rem;color:var(--mute);margin-bottom:6px}
+.donate-addr{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--dim);word-break:break-all;cursor:pointer;transition:color .15s;line-height:1.8}
+.donate-addr:hover{color:var(--w)}
+
+/* CHARITY */
+.charity{text-align:center;padding:72px 0 40px}
+.charity-icon{font-size:2rem;margin-bottom:16px;opacity:.5}
+.charity-text{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--mute);margin-bottom:10px}
+.charity-sub{color:#333;font-size:.75rem;line-height:1.8;max-width:420px;margin:0 auto}
+
+/* DISCLAIMER */
+.disclaimer{text-align:center;color:#222;font-size:.65rem;line-height:1.9;padding:0 24px 48px;max-width:520px;margin:0 auto}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:56px 0;text-align:center}
+footer p{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--mute);letter-spacing:.5px;transition:color .3s}
+footer p:hover{color:var(--dim)}
+footer p+p{margin-top:10px}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+.wrap{padding:0 20px}
+.hero{min-height:90vh;padding:60px 0}
+.hero h1{letter-spacing:-2px}
+.config{padding:28px;border-radius:16px}
+.config-top{flex-direction:column;align-items:flex-start;gap:12px}
+.config-meta{flex-wrap:wrap;gap:16px}
+.section{padding:60px 0}
+.tool{padding:22px 0;gap:16px}
+.proxy-header{padding:18px 20px}
+.proxy-body.show{padding:4px 20px 20px}
+.stats{grid-template-columns:repeat(3,1fr);gap:1px}
+.stat{padding:20px 12px}
+.stat-num{font-size:1.4rem}
+}
+@media(max-width:480px){
+.wrap{padding:0 16px}
+.hero{min-height:85vh;padding:48px 0}
+.hero h1{font-size:clamp(2.6rem,12vw,3.8rem);letter-spacing:-1px}
+.hero-sub{font-size:.95rem}
+.config{padding:20px}
+.config-top h2{font-size:1.3rem}
+.config-btn{padding:14px 24px;font-size:.9rem;width:100%;justify-content:center}
+.config-meta{flex-direction:column;gap:10px}
+.section{padding:48px 0}
+.section h2{font-size:1.25rem}
+.tool{flex-direction:column;gap:12px}
+.tool-icon{width:36px;height:36px;font-size:.9rem}
+.tool-info h3{font-size:.88rem}
+.proxy-header{padding:16px}
+.proxy-body.show{padding:4px 16px 16px}
+.proxy-link{font-size:.75rem}
+.help-list li{font-size:.85rem}
+.stat-num{font-size:1.2rem}
+.charity{padding:48px 0 32px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<div id="top" onclick="window.scrollTo({top:0})">↑</div>
+
+<div class="wrap">
+
+<div class="hero">
+<div class="hero-line"></div>
+<div class="hero-label">свободный интернет</div>
+<h1>bezlista</h1>
+<p class="hero-sub">Открытый набор инструментов для обхода блокировок. Бесплатно, без регистрации, без ограничений.</p>
+<div class="easter">BIG BROTHER IS WATCHING</div>
+</div>
+
+<div class="stats">
+<div class="stat"><div class="stat-num">57</div><div class="stat-label">Прокси</div></div>
+<div class="stat"><div class="stat-num">3</div><div class="stat-label">Инструм.</div></div>
+<div class="stat"><div class="stat-num">0₽</div><div class="stat-label">Цена</div></div>
+</div>
+
+<div class="config">
+<div class="config-top">
+<h2>Конфигурация</h2>
+<span class="badge">Главная</span>
+</div>
+<p class="config-desc">Готовый конфиг для подключения. Импортируйте в <strong>v2rayN, Nekoray, v2rayNG, Streisand, Hiddify</strong>. Работает сразу после импорта — никаких дополнительных настроек не требуется.</p>
+<a class="config-btn" onclick="copyConfig()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+<span>Скопировать ссылку</span>
+</a>
+<div class="config-meta">
+<div>Протокол: <span>VLESS + Reality</span></div>
+<div>Обновлено: <span>март 2026</span></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-num anim">01</div>
+<h2 class="anim">Инструменты</h2>
+<p class="section-desc anim">Программы для обхода DPI-фильтрации. Все бесплатные, с открытым кодом. Работают на Windows, Linux и Android.</p>
+
+<div class="tool anim"><div class="tool-icon">⊞</div><div class="tool-info"><h3>GoodbyeDPI</h3><p>Обход DPI на Windows. Убирает блокировку на уровне системы, не является VPN — просто модифицирует пакеты.</p><a href="https://github.com/ValdikSS/GoodbyeDPI" target="_blank" rel="noopener">github.com/ValdikSS/GoodbyeDPI →</a></div></div>
+<div class="tool anim"><div class="tool-icon">⊟</div><div class="tool-info"><h3>zapret</h3><p>Аналог GoodbyeDPI для Linux и роутеров. Поддерживает nftables и iptables, много готовых пресетов для разных провайдеров.</p><a href="https://github.com/bol-van/zapret" target="_blank" rel="noopener">github.com/bol-van/zapret →</a></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>ByeDPI</h3><p>Для Android. Обход DPI без root-прав, без рекламы и без телеметрии. Минимальный размер и энергопотребление.</p><a href="https://github.com/dovecote/ByeDPI" target="_blank" rel="noopener">github.com/dovecote/ByeDPI →</a></div></div>
+</div>
+
+<div class="section">
+<div class="section-num anim">02</div>
+<h2 class="anim">VPN-клиенты</h2>
+<p class="section-desc anim">Приложения для подключения к VPN. Установите, импортируйте конфиг — и вы в сети.</p>
+
+<div class="tool anim"><div class="tool-icon">⊞</div><div class="tool-info"><h3>v2rayN</h3><p>Для Windows. Самый популярный клиент для VLESS/Xray. Удобный интерфейс, поддержка подписок и QR-кодов.</p><a href="https://github.com/2dust/v2rayN" target="_blank" rel="noopener">github.com/2dust/v2rayN →</a></div></div>
+<div class="tool anim"><div class="tool-icon">⊟</div><div class="tool-info"><h3>v2rayNG</h3><p>Для Android. Аналог v2rayN на мобильные. Поддержка всех протоколов, импорт из ссылки или QR.</p><a href="https://github.com/2dust/v2rayNG" target="_blank" rel="noopener">github.com/2dust/v2rayNG →</a></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Nekoray</h3><p>Для Windows/Linux/macOS. Кросс-платформенный клиент на базе Qt. Поддержка Xray и sing-box.</p><a href="https://github.com/MatsuriDayo/nekoray" target="_blank" rel="noopener">github.com/MatsuriDayo/nekoray →</a></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Hiddify</h3><p>Для iOS. Клиент с красивым интерфейсом, поддержка VLESS Reality. Есть в App Store.</p><a href="https://apps.apple.com/app/hiddify/id6596777532" target="_blank" rel="noopener">App Store →</a></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Streisand</h3><p>Для iOS/macOS. Open source клиент, поддержка VLESS, Trojan, Shadowsocks. Есть в App Store.</p><a href="https://apps.apple.com/app/streisand/id6451078496" target="_blank" rel="noopener">App Store →</a></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>v2rayA</h3><p>Веб-интерфейс для управления V2Ray. Установите на сервер и управляйте через браузер.</p><a href="https://github.com/v2rayA/v2rayA" target="_blank" rel="noopener">github.com/v2rayA/v2rayA →</a></div></div>
+<div class="tool anim"><div class="tool-icon">⊡</div><div class="tool-info"><h3>Happ</h3><p>Для Windows/macOS/Linux. Многофункциональный VPN-клиент с поддержкой множества протоколов. Удобный интерфейс и автоматическая настройка.</p><a href="https://www.happ.su/main/ru" target="_blank" rel="noopener">happ.su →</a></div></div>
+</div>
+
+<div class="section">
+<div class="section-num anim">03</div>
+<h2 class="anim">Прокси для Telegram</h2>
+<p class="section-desc anim">MTProto-прокси для доступа к Telegram. Нажмите на ссылку — прокси применится автоматически. Клик на адрес — копирует в буфер.</p>
+
+<div class="proxy-box anim">
+<div class="proxy-header" onclick="toggleProxy()"><span>Показать 57 прокси</span><span class="arrow">▼</span></div>
+<div class="proxy-body" id="proxyList">
+<div class="search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+<input type="text" placeholder="Поиск по адресу..." oninput="filterProxy(this.value)">
+</div>
+<div class="proxy-label">MTProto</div>
+<a class="proxy-link" href="https://t.me/proxy?server=45.138.24.164&port=8888&secret=dd36d9a9b832ac1a3f1253de7f428ecbf2" onclick="event.stopPropagation()"><span onclick="clip(this,event)">45.138.24.164:8888</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=152.53.34.211&port=8888&secret=ddc7ea622226453fc0cb3c7a8cd61a8f00" onclick="event.stopPropagation()"><span onclick="clip(this,event)">152.53.34.211:8888</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=37.139.35.3&port=443&secret=ddeae641b7b29e20d5c782b86a63853b93" onclick="event.stopPropagation()"><span onclick="clip(this,event)">37.139.35.3:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=50.7.37.34&port=8888&secret=dd7qfKgGZU05gCdg27MSc_3ER0bHM6ZmlsZS12MS5ib3N4Lm5ldA" onclick="event.stopPropagation()"><span onclick="clip(this,event)">50.7.37.34:8888</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=94.139.245.35&port=443&secret=ee6185f101b17275c74e46f2639ec9f6a56170692e706c75732e6b696e6f706f69736b2e7275" onclick="event.stopPropagation()"><span onclick="clip(this,event)">94.139.245.35:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=37.139.42.182&port=443&secret=dd7uPToJox9chXiQz8KgvKtMFlaC52ay5jb20" onclick="event.stopPropagation()"><span onclick="clip(this,event)">37.139.42.182:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=159.194.199.92&port=443&secret=dd7pT8K0hK9uHhyH5ldrM8JXV5YS5ydQ" onclick="event.stopPropagation()"><span onclick="clip(this,event)">159.194.199.92:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=37.139.43.80&port=443&secret=ddf5199e949c0f23bc887581218ad8c1e6" onclick="event.stopPropagation()"><span onclick="clip(this,event)">37.139.43.80:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=37.139.42.151&port=443&secret=ddf5199e949c0f23bc887581218ad8c1e6" onclick="event.stopPropagation()"><span onclick="clip(this,event)">37.139.42.151:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=5.188.140.234&port=443&secret=ddf5199e949c0f23bc887581218ad8c1e6" onclick="event.stopPropagation()"><span onclick="clip(this,event)">5.188.140.234:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=37.139.42.140&port=443&secret=ddf5199e949c0f23bc887581218ad8c1e6" onclick="event.stopPropagation()"><span onclick="clip(this,event)">37.139.42.140:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=5.188.141.236&port=443&secret=ddf5199e949c0f23bc887581218ad8c1e6" onclick="event.stopPropagation()"><span onclick="clip(this,event)">5.188.141.236:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=46.243.232.222&port=443&secret=eeccedf4acf58a2f639b0c3e3f6b0a78d56d61782e7275" onclick="event.stopPropagation()"><span onclick="clip(this,event)">46.243.232.222:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=212.233.93.104&port=443&secret=dd6b3fb02424dbac55fef2da67c8c949" onclick="event.stopPropagation()"><span onclick="clip(this,event)">212.233.93.104:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=185.241.194.130&port=2443&secret=dd9c4a7e2d1f5086b3a9d2e4f607182c5a" onclick="event.stopPropagation()"><span onclick="clip(this,event)">185.241.194.130:2443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=212.233.77.95&port=443&secret=dd6b3fb02424dbac55fef2da67c8c949" onclick="event.stopPropagation()"><span onclick="clip(this,event)">212.233.77.95:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=212.233.76.117&port=443&secret=dd95f887ed2935ea722db57a88133aa8da" onclick="event.stopPropagation()"><span onclick="clip(this,event)">212.233.76.117:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=212.233.89.91&port=443&secret=dd53915bc9db7dca3607a54d85bbebf1de" onclick="event.stopPropagation()"><span onclick="clip(this,event)">212.233.89.91:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=94.126.207.155&port=443&secret=ee4edd9df53791e5110747df997977efff79612e7275" onclick="event.stopPropagation()"><span onclick="clip(this,event)">94.126.207.155:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=72.56.78.99&port=443&secret=eea1b303bada01b81e3f48d38511e95e9031632e7275" onclick="event.stopPropagation()"><span onclick="clip(this,event)">72.56.78.99:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=212.57.115.3&port=443&secret=dd9be2e9a4ed69389a32656cc14320d4ca" onclick="event.stopPropagation()"><span onclick="clip(this,event)">212.57.115.3:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=37.139.32.18&port=443&secret=dd9f3c7a8d2e4b1c6f5a7d8e9b0c2f4a1d" onclick="event.stopPropagation()"><span onclick="clip(this,event)">37.139.32.18:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=185.130.113.138&port=443&secret=dd6b3fb02424dbac55fef2da67c8c949" onclick="event.stopPropagation()"><span onclick="clip(this,event)">185.130.113.138:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=46.243.232.222&port=443&secret=dd7szt9Kz1ii9jmww-P2sKeNVtYXgucnU" onclick="event.stopPropagation()"><span onclick="clip(this,event)">46.243.232.222:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=94.126.207.155&port=444&secret=dd4edd9df53791e5110747df997977efff" onclick="event.stopPropagation()"><span onclick="clip(this,event)">94.126.207.155:444</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=176.109.105.129&port=443&secret=ee248c43b7aee97c6fe887311452a323026164732e78352e7275" onclick="event.stopPropagation()"><span onclick="clip(this,event)">176.109.105.129:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=37.139.34.162&port=443&secret=dd9f3c7a8d2e4b1c6f5a7d8e9b0c2f4a1d" onclick="event.stopPropagation()"><span onclick="clip(this,event)">37.139.34.162:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=77.239.107.81&port=443&secret=ee0922b1d692c0abd535036fa5a4c2a90e31632e7275" onclick="event.stopPropagation()"><span onclick="clip(this,event)">77.239.107.81:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=95.174.92.184&port=443&secret=ee85e493328b7a0d1b2af6c4b0fd948a506164732e78352e7275" onclick="event.stopPropagation()"><span onclick="clip(this,event)">95.174.92.184:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=87.242.100.25&port=443&secret=eefa41d7ab59231ab714b7865c9016a1356164732e78352e7275" onclick="event.stopPropagation()"><span onclick="clip(this,event)">87.242.100.25:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=152.53.119.48&port=8443&secret=ddd967e83b1fd8d6c679f86ba2ca5ecbde" onclick="event.stopPropagation()"><span onclick="clip(this,event)">152.53.119.48:8443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=83.166.234.56&port=80&secret=dd8d5213b644dfb946a2650cf8604d012d" onclick="event.stopPropagation()"><span onclick="clip(this,event)">83.166.234.56:80</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=212.233.89.91&port=443&secret=ddf4b54d805ffeff430be106aa80d94f7f" onclick="event.stopPropagation()"><span onclick="clip(this,event)">212.233.89.91:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=146.185.243.42&port=443&secret=dd137b5ff6e2d9e9efd467c2da4d1bff2b" onclick="event.stopPropagation()"><span onclick="clip(this,event)">146.185.243.42:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=212.233.79.129&port=4444&secret=dd94fc2b484af6e1e1c87e6576b33c2575" onclick="event.stopPropagation()"><span onclick="clip(this,event)">212.233.79.129:4444</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=212.233.92.181&port=443&secret=dd3fbe95e68e560b9b58e408e13b22ad0d" onclick="event.stopPropagation()"><span onclick="clip(this,event)">212.233.92.181:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=95.163.215.131&port=8443&secret=dd18951ef5faaf08ed56bd158134f4241b" onclick="event.stopPropagation()"><span onclick="clip(this,event)">95.163.215.131:8443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=195.133.23.14&port=443&secret=dd33949ed9ec94e0afc03af60bfc21cec9" onclick="event.stopPropagation()"><span onclick="clip(this,event)">195.133.23.14:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=85.192.32.50&port=443&secret=dd5f3f0e63b28e7e9884b872748e8425ba" onclick="event.stopPropagation()"><span onclick="clip(this,event)">85.192.32.50:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=146.185.242.92&port=443&secret=ddce39a533755cc1bac5703ce48c2f5a69" onclick="event.stopPropagation()"><span onclick="clip(this,event)">146.185.242.92:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=109.120.190.5&port=443&secret=dd9f3c7a8d2e4b1c6f5a7d8e9b0c2f4a1d" onclick="event.stopPropagation()"><span onclick="clip(this,event)">109.120.190.5:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=185.86.146.3&port=443&secret=dd97aa082ad8ca3c6598fe31cf4817dfaa" onclick="event.stopPropagation()"><span onclick="clip(this,event)">185.86.146.3:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=109.120.183.45&port=443&secret=dd8a9bd5075d3d29022c165359eb174217" onclick="event.stopPropagation()"><span onclick="clip(this,event)">109.120.183.45:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=179.43.191.102&port=443&secret=dd8e1f6f7bb527e7e20d14cb8dd0639baa" onclick="event.stopPropagation()"><span onclick="clip(this,event)">179.43.191.102:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=37.139.34.234&port=443&secret=dd64e4ff5d72601338f9205b0a0971b6d8" onclick="event.stopPropagation()"><span onclick="clip(this,event)">37.139.34.234:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=94.228.210.66&port=443&secret=ee0af6bd2f3c8fb0b1c14abcc1e0697d37766b2e7275" onclick="event.stopPropagation()"><span onclick="clip(this,event)">94.228.210.66:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=91.219.227.34&port=443&secret=ddeb52a2f03d08b56590411d3a7425b208" onclick="event.stopPropagation()"><span onclick="clip(this,event)">91.219.227.34:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=5.42.120.2&port=443&secret=dde5bca2dcc8d9b782ee9aada3cecc0e63" onclick="event.stopPropagation()"><span onclick="clip(this,event)">5.42.120.2:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=51.250.39.11&port=443&secret=ddc8d206c7720ee8d02b932e14a3714d88" onclick="event.stopPropagation()"><span onclick="clip(this,event)">51.250.39.11:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=51.250.38.88&port=443&secret=ddc8d206c7720ee8d02b932e14a3714d88" onclick="event.stopPropagation()"><span onclick="clip(this,event)">51.250.38.88:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=84.201.175.61&port=443&secret=eead24ce88888cf6231e908ca911628e" onclick="event.stopPropagation()"><span onclick="clip(this,event)">84.201.175.61:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=212.233.99.193&port=8443&secret=dd7ff78ad202f26f370e9195017f111ba1" onclick="event.stopPropagation()"><span onclick="clip(this,event)">212.233.99.193:8443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=37.139.34.153&port=443&secret=dd9f3c7a8d2e4b1c6f5a7d8e9b0c2f4a1d" onclick="event.stopPropagation()"><span onclick="clip(this,event)">37.139.34.153:443</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/proxy?server=212.57.115.3&port=443&secret=dd9be2e9a4ed69389a32656cc14320d4ca" onclick="event.stopPropagation()"><span onclick="clip(this,event)">212.57.115.3:443</span><span class="hint">↑</span></a>
+<div class="proxy-label">SOCKS5</div>
+<a class="proxy-link" href="https://t.me/socks?server=109.120.189.122&port=1080&user=tgproxy&pass=VKRecaXEinjq3M9U" onclick="event.stopPropagation()"><span onclick="clip(this,event)">109.120.189.122:1080</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/socks?server=109.120.191.248&port=1080&user=tgproxy&pass=tgproxy" onclick="event.stopPropagation()"><span onclick="clip(this,event)">109.120.191.248:1080</span><span class="hint">↑</span></a>
+<a class="proxy-link" href="https://t.me/socks?server=89.221.203.3&port=23785&user=FurkVPNbot&pass=FurkVPN" onclick="event.stopPropagation()"><span onclick="clip(this,event)">89.221.203.3:23785</span><span class="hint">↑</span></a>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-num anim">04</div>
+<h2 class="anim">Помочь проекту</h2>
+<p class="section-desc anim">Проект существует только благодаря сообществу. Любая помощь ценна.</p>
+<ul class="help-list">
+<li class="anim">Поделитесь ссылкой на этот сайт с теми, кому это нужно</li>
+<li class="anim">Добавьте в закладки — пригодится позже</li>
+<li class="anim">Сообщите о нерабочей ссылке — <a href="https://bezlistabot.t.me" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:.8rem;">bezlistabot.t.me</a></li>
+</ul>
+<div class="donate anim">
+<div class="donate-label">TON / USDT (TON Network)</div>
+<p class="donate-addr" onclick="navigator.clipboard.writeText('UQD3SRTMFKppV2RnYQofn9GlPdzQiV1ya8ZgnLsYG0sf0fbZ');this.style.color='#fff';setTimeout(()=>this.style.color='',1500)" title="Нажмите чтобы скопировать">UQD3SRTMFKppV2RnYQofn9GlPdzQiV1ya8ZgnLsYG0sf0fbZ</p>
+</div>
+</div>
+
+<div class="charity">
+<div class="charity-icon">✦</div>
+<div class="charity-text">благотворительный проект</div>
+<div class="charity-sub">Всё бесплатно и навсегда. Без регистрации, без рекламы, без сбора данных. Если проект помог вам — расскажите друзьям.</div>
+</div>
+
+<p class="disclaimer">Сайт — агрегатор ссылок на publicly available ресурсы. Все сервисы бесплатные и легальные. Информация предоставляется для обеспечения права на информацию. Пользователь самостоятельно несёт ответственность за соблюдение законодательства.</p>
+
+</div>
+
+<footer>
+<div class="wrap">
+<p>bezlista — <a href="https://github.com/byrbyrka/bezlista.github.io" target="_blank">github</a> · <a href="https://bezlista.t.me" target="_blank">telegram</a></p>
+<p>ссылка не работает — <a href="https://t.me/bezlista_support" target="_blank">написать</a></p>
+</div>
+</footer>
+
+<script>
+var obs=new IntersectionObserver(function(e){e.forEach(function(i){if(i.isIntersecting)i.target.classList.add('vis')})},{threshold:.1});
+document.querySelectorAll('.anim').forEach(function(el){obs.observe(el)});
+window.addEventListener('scroll',function(){document.getElementById('top').classList.toggle('show',window.scrollY>500)});
+function toggleProxy(){var l=document.getElementById('proxyList'),h=l.previousElementSibling;l.classList.toggle('show');h.classList.toggle('open')}
+function copyConfig(){var url='https://raw.githubusercontent.com/byrbyrka/bezlista.github.io/refs/heads/main/conf1g.txt';navigator.clipboard.writeText(url).then(function(){var b=document.querySelector('.config-btn'),o=b.innerHTML;b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Скопировано</span>';setTimeout(function(){b.innerHTML=o},2000)})}
+function clip(el,e){e.preventDefault();e.stopPropagation();var txt=el.textContent.trim();navigator.clipboard.writeText(txt).then(function(){var d=document.createElement('div');d.className='copied';d.textContent='Скопировано: '+txt;document.body.appendChild(d);setTimeout(function(){d.remove()},2000)})}
+function filterProxy(q){q=q.toLowerCase();document.querySelectorAll('.proxy-link').forEach(function(el){el.style.display=el.textContent.toLowerCase().indexOf(q)>-1?'':'none'})}
+</script>
+</body>
+</html>
