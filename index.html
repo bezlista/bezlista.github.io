@@ -11,11 +11,11 @@
 <meta name="theme-color" content="#000">
 <link rel="manifest" href="manifest.json">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#000;--card:#0a0b0e;--border:#1c1e24;--text:#e0e0e0;--dim:#7a7f87;--mute:#484d55;--w:#fff;--accent:#e8e8e8}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;background-image:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(255,255,255,.05) 0%,transparent 70%)}
+body{background:var(--bg);color:var(--text);font-family:'Outfit','Inter',sans-serif;font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;background-image:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(255,255,255,.05) 0%,transparent 70%)}
 
 .wrap{max-width:720px;margin:0 auto;padding:0 24px}
 a{color:var(--w);text-decoration:none;border-bottom:1px solid var(--border);transition:all .3s}
@@ -53,14 +53,15 @@ a:hover{border-color:var(--w)}
 .hero::before{content:'';position:absolute;top:10%;left:50%;width:1200px;height:1200px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,255,255,.12) 0%,rgba(255,255,255,.04) 25%,rgba(255,255,255,.01) 50%,transparent 65%);pointer-events:none}
 .hero-line{width:80px;height:2px;background:linear-gradient(90deg,var(--w),rgba(255,255,255,.05));margin-bottom:36px;animation:lineGrow 1s ease .3s both}
 .hero-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--mute);margin-bottom:24px;animation:slideRight .8s ease .5s both}
-.hero h1{font-size:clamp(3.5rem,10vw,7rem);font-weight:800;letter-spacing:-4px;line-height:.85;color:var(--w);margin-bottom:28px;animation:slideUp .8s ease .7s both}
+.hero h1{font-family:'Outfit',sans-serif;font-size:clamp(3.5rem,10vw,7rem);font-weight:800;letter-spacing:-4px;line-height:.85;color:var(--w);margin-bottom:28px;animation:slideUp .8s ease .7s both;text-rendering:optimizeLegibility}
 .hero-sub{font-size:1.1rem;color:var(--dim);max-width:420px;line-height:1.8;animation:slideUp .8s ease .9s both}
 .easter{margin-top:56px;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;color:#444;animation:fadeIn 1s ease 2s both}
 
 /* STATS */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:48px 0 16px}
 .stat{background:var(--card);padding:28px 20px;text-align:center;transition:background .3s}
-.stat:hover{background:#1a1a1a}
+.stat:hover{background:#1a1a1a;transform:scale(1.02)}
+.stat{transition:all .3s cubic-bezier(.16,1,.3,1)}
 .stat-num{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--w);margin-bottom:4px}
 .stat-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mute);letter-spacing:2px;text-transform:uppercase}
 
@@ -69,7 +70,7 @@ a:hover{border-color:var(--w)}
 .config:hover{border-color:rgba(255,255,255,.18);transform:translateY(-4px);box-shadow:0 24px 64px rgba(0,0,0,.6)}
 .config::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 5%,rgba(255,255,255,.3) 50%,transparent 95%);animation:shimmer 4s linear infinite;background-size:200% 100%}
 .config-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
-.config-top h2{font-size:1.6rem;font-weight:700;color:var(--w);letter-spacing:-.5px}
+.config-top h2{font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:700;color:var(--w);letter-spacing:-.5px;text-rendering:optimizeLegibility}
 .badge{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;background:var(--w);color:var(--bg);padding:5px 14px;border-radius:6px;font-weight:700;animation:pulse 2s ease-in-out infinite}
 .config-desc{color:var(--dim);font-size:.95rem;margin-bottom:28px;line-height:1.8}
 .config-desc strong{color:var(--accent);font-weight:600}
@@ -88,7 +89,7 @@ a:hover{border-color:var(--w)}
 .section{padding:80px 0;border-top:1px solid rgba(255,255,255,.04)}
 .section-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute);letter-spacing:3px;margin-bottom:12px;transition:color .3s}
 .section:hover .section-num{color:var(--dim)}
-.section h2{font-size:1.6rem;font-weight:700;color:var(--w);letter-spacing:-.5px;margin-bottom:10px}
+.section h2{font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:700;color:var(--w);letter-spacing:-.5px;margin-bottom:10px;text-rendering:optimizeLegibility}
 .section-desc{color:var(--dim);font-size:.9rem;margin-bottom:40px;max-width:560px}
 
 /* TOOLS */
@@ -100,8 +101,11 @@ a:hover{border-color:var(--w)}
 .tool-icon{width:48px;height:48px;border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;background:var(--card);transition:all .3s}
 .tool:hover .tool-icon{border-color:rgba(255,255,255,.3);transform:rotate(5deg) scale(1.05);box-shadow:0 4px 16px rgba(255,255,255,.06)}
 .tool-info{flex:1}
-.tool-info h3{font-size:.95rem;font-weight:600;color:var(--w);margin-bottom:6px;transition:transform .3s}
-.tool:hover .tool-info h3{transform:translateX(4px)}
+.tool-info h3{font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:600;color:var(--w);margin-bottom:6px;transition:transform .3s;text-rendering:optimizeLegibility}
+.tool:hover .tool-info h3{transform:translateX(4px);color:#fff}
+.tool:hover .tool-info p{color:var(--accent)}
+.tool:hover .tool-icon{animation:iconPop .3s ease}
+@keyframes iconPop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1.05)}}
 .tool-info p{font-size:.83rem;color:var(--dim);margin-bottom:12px;line-height:1.6}
 .tool-info a{font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.3px;color:var(--dim);transition:all .3s;border-bottom:1px solid transparent}
 .tool-info a:hover{color:var(--w);letter-spacing:1px;border-bottom-color:var(--w)}
@@ -271,8 +275,8 @@ footer p+p{margin-top:8px}
 </div>
 
 <div class="stats">
-<div class="stat"><div class="stat-num">57</div><div class="stat-label">Прокси</div></div>
-<div class="stat"><div class="stat-num">3</div><div class="stat-label">Инструм.</div></div>
+<div class="stat"><div class="stat-num">58</div><div class="stat-label">Прокси для тг</div></div>
+<div class="stat"><div class="stat-num">7</div><div class="stat-label">Серверов</div></div>
 <div class="stat"><div class="stat-num">0₽</div><div class="stat-label">Цена</div></div>
 </div>
 <div class="config">
@@ -300,15 +304,28 @@ footer p+p{margin-top:8px}
 <a href="https://bezlista.t.me" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#0088cc,#0077b5);color:#fff;border-radius:10px;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .3s;box-shadow:0 4px 16px rgba(0,136,204,.3)"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg><span>Telegram</span></a>
 <a href="https://boosty.to/bezlista" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#f05a28,#e64a19);color:#fff;border-radius:10px;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .3s;box-shadow:0 4px 16px rgba(240,90,40,.3)"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span>Boosty</span></a>
 </div>
-<div style="background:var(--card);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:16px 20px;margin-top:16px;display:flex;align-items:center;gap:12px">
-<span style="color:#7C3AED;font-size:1.2rem">✦</span>
-<div><p style="color:var(--dim);font-size:.82rem;margin:0">Спонсор: <a href="https://t.me/nbbvpn" target="_blank" style="color:#7C3AED;font-weight:600">NBB VPN</a></p></div>
-</div>
 </div>
 
 <div style="background:var(--card);border:1px solid rgba(220,20,60,.2);border-radius:12px;padding:16px 20px;margin-bottom:40px;display:flex;align-items:center;gap:14px">
 <span style="color:#DC143C;font-size:.9rem;opacity:.8">⚠</span>
 <p style="color:var(--dim);font-size:.82rem;line-height:1.5;margin:0"><strong style="color:#DC143C">Telega</strong> — содержит слежку. <a href="https://dontusetelega.lol" target="_blank" style="color:#DC143C;border-bottom:1px dashed rgba(220,20,60,.3)">Узнать больше</a></p>
+</div>
+
+<div class="section" style="padding:40px 0">
+<div class="section-num anim">✦</div>
+<h2 class="anim">Спонсоры</h2>
+<p class="section-desc anim">Проект поддерживается благодаря этим замечательным проектам.</p>
+
+<div style="display:grid;gap:12px">
+<div class="anim" style="background:var(--card);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;transition:all .3s">
+<span style="color:#7C3AED;font-size:1.2rem">✦</span>
+<div><p style="color:var(--dim);font-size:.82rem;margin:0">Спонсор: <a href="https://t.me/nbbvpn" target="_blank" style="color:#7C3AED;font-weight:600">NBB VPN</a></p></div>
+</div>
+<div class="anim" style="background:var(--card);border:1px solid rgba(220,20,60,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;transition:all .3s">
+<span style="color:#DC143C;font-size:1.2rem">✦</span>
+<div><p style="color:var(--dim);font-size:.82rem;margin:0">Спонсор: <a href="https://t.me/NimarkoProject" target="_blank" style="color:#DC143C;font-weight:600">NimarkoProject</a></p></div>
+</div>
+</div>
 </div>
 
 <div class="section">
@@ -343,7 +360,7 @@ footer p+p{margin-top:8px}
 <p class="section-desc anim">MTProto-прокси для доступа к Telegram. Нажмите на ссылку — прокси применится автоматически. Клик на адрес — копирует в буфер.</p>
 
 <div class="proxy-box anim">
-<div class="proxy-header" onclick="toggleProxy()"><span>Показать 57 прокси</span><span class="arrow">▼</span></div>
+<div class="proxy-header" onclick="toggleProxy()"><span>Показать 58 прокси</span><span class="arrow">▼</span></div>
 <div class="proxy-body" id="proxyList">
 <div class="search">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -463,7 +480,7 @@ footer p+p{margin-top:8px}
 <footer>
 <div class="wrap">
 <p>bezlista — <a href="https://github.com/bezlista/bezlista.github.io" target="_blank">github</a> · <a href="https://bezlista.t.me" target="_blank">telegram</a></p>
-<p>ссылка не работает — <a href="https://t.me/bezlista_support" target="_blank">написать</a></p>
+<p>ссылка не работает — <a href="https://t.me/bezlistabot" target="_blank">написать</a></p>
 </div>
 </footer>
 
