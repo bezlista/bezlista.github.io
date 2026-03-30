@@ -290,7 +290,7 @@ footer p+p{margin-top:8px}
 
 <div class="stats">
 <div class="stat anim" style="animation-delay:.1s"><div class="stat-num">58</div><div class="stat-label">Прокси для тг</div></div>
-<div class="stat anim" style="animation-delay:.2s"><div class="stat-num">38</div><div class="stat-label">Серверов</div></div>
+<div class="stat anim" style="animation-delay:.2s"><div class="stat-num">10</div><div class="stat-label">Серверов</div></div>
 <div class="stat anim" style="animation-delay:.3s"><div class="stat-num">0₽</div><div class="stat-label">Цена</div></div>
 </div>
 <div class="config anim">
@@ -338,10 +338,6 @@ footer p+p{margin-top:8px}
 <div class="anim" style="background:var(--card);border:1px solid rgba(220,20,60,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;transition:all .3s">
 <span style="color:#DC143C;font-size:1.2rem">✦</span>
 <div><p style="color:var(--dim);font-size:.82rem;margin:0">Спонсор: <a href="https://t.me/NimarkoProject" target="_blank" style="color:#DC143C;font-weight:600">NimarkoProject</a></p></div>
-</div>
-<div class="anim" style="background:var(--card);border:1px solid rgba(0,136,204,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;transition:all .3s">
-<span style="color:#0088cc;font-size:1.2rem">✦</span>
-<div><p style="color:var(--dim);font-size:.82rem;margin:0">Спонсор: <a href="https://fastconnews.t.me" target="_blank" style="color:#0088cc;font-weight:600">FastConNews</a></p></div>
 </div>
 </div>
 </div>
@@ -521,7 +517,7 @@ var statsObs=new IntersectionObserver(function(e){
 e.forEach(function(entry){
 if(entry.isIntersecting){
 var nums=entry.target.querySelectorAll('.stat-num');
-var vals=[58,38,'0₽'];
+var vals=[58,10,'0₽'];
 nums.forEach(function(n,i){
 animateNumber(n,vals[i],i*0.3);
 });
