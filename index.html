@@ -307,6 +307,7 @@ footer p+p{margin-top:8px}
 <div id="configMenu" style="display:none;position:absolute;top:100%;left:0;margin-top:8px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px;min-width:280px;z-index:50;box-shadow:0 8px 32px rgba(0,0,0,.4)">
 <a onclick="copyUrl('main')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;cursor:pointer;transition:background .2s;border:none;color:var(--dim);font-size:.82rem"><span style="color:#4CAF50">●</span> Основной (GitHub)</a>
 <a onclick="copyUrl('mirror')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;cursor:pointer;transition:background .2s;border:none;color:var(--dim);font-size:.82rem"><span style="color:#2196F3">●</span> Зеркало (GitVerse)</a>
+<a onclick="copyUrl('vercel')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;cursor:pointer;transition:background .2s;border:none;color:var(--dim);font-size:.82rem"><span style="color:#FF6B00">●</span> Зеркало (Vercel)</a>
 </div>
 </div>
 <div class="config-meta">
@@ -338,6 +339,10 @@ footer p+p{margin-top:8px}
 <div class="anim" style="background:var(--card);border:1px solid rgba(220,20,60,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;transition:all .3s">
 <span style="color:#DC143C;font-size:1.2rem">✦</span>
 <div><p style="color:var(--dim);font-size:.82rem;margin:0">Спонсор: <a href="https://t.me/NimarkoProject" target="_blank" style="color:#DC143C;font-weight:600">NimarkoProject</a></p></div>
+</div>
+<div class="anim" style="background:var(--card);border:1px solid rgba(0,102,204,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;transition:all .3s">
+<span style="color:#0066CC;font-size:1.2rem">✦</span>
+<div><p style="color:var(--dim);font-size:.82rem;margin:0">Спонсор: <a href="https://t.me/asodlink" target="_blank" style="color:#0066CC;font-weight:600">asodvpn</a></p></div>
 </div>
 </div>
 </div>
@@ -533,7 +538,7 @@ window.addEventListener('scroll',function(){document.getElementById('top').class
 function toggleProxy(){var l=document.getElementById('proxyList'),h=l.previousElementSibling;l.classList.toggle('show');h.classList.toggle('open')}
 function toggleNews(){var l=document.getElementById('newsList'),a=document.getElementById('newsArrow');l.classList.toggle('show');a.textContent=l.classList.contains('show')?'▲':'▼'}
 function toggleConfigMenu(){var m=document.getElementById('configMenu');m.style.display=m.style.display==='none'?'block':'none';setTimeout(function(){document.addEventListener('click',function close(e){if(!m.contains(e.target)&&!e.target.closest('.config-btn')){m.style.display='none';document.removeEventListener('click',close)}},{once:false})},0)}
-function copyUrl(t){var urls={main:'https://raw.githubusercontent.com/bezlista/bezlista.github.io/refs/heads/main/conf1g.txt',mirror:'https://gitverse.ru/api/repos/bezlista/bezlista_mirror/raw/branch/master/conf1g.txt'};navigator.clipboard.writeText(urls[t]).then(function(){var m=document.getElementById('configMenu');m.style.display='none';var b=document.querySelector('.config-btn'),o=b.innerHTML;b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Скопировано</span>';setTimeout(function(){b.innerHTML=o},2000)})}
+function copyUrl(t){var urls={main:'https://raw.githubusercontent.com/bezlista/bezlista.github.io/refs/heads/main/conf1g.txt',mirror:'https://gitverse.ru/api/repos/bezlista/bezlista_mirror/raw/branch/master/conf1g.txt',vercel:'https://ixd9xtygeinqj8sr.public.blob.vercel-storage.com/conf1g.txt'};navigator.clipboard.writeText(urls[t]).then(function(){var m=document.getElementById('configMenu');m.style.display='none';var b=document.querySelector('.config-btn'),o=b.innerHTML;b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Скопировано</span>';setTimeout(function(){b.innerHTML=o},2000)})}
 function copyConfig(){toggleConfigMenu()}
 function clip(el,e){e.preventDefault();e.stopPropagation();var txt=el.textContent.trim();navigator.clipboard.writeText(txt).then(function(){var d=document.createElement('div');d.className='copied';d.textContent='Скопировано: '+txt;document.body.appendChild(d);setTimeout(function(){d.remove()},2000)})}
 function filterProxy(q){q=q.toLowerCase();document.querySelectorAll('.proxy-link').forEach(function(el){el.style.display=el.textContent.toLowerCase().indexOf(q)>-1?'':'none'})}
