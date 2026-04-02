@@ -328,7 +328,7 @@ footer p+p{margin-top:8px}
 <div class="section" style="padding:40px 0">
 <div class="section-num anim" style="animation-delay:.1s">✦</div>
 <h2 class="anim" style="animation-delay:.2s">Спонсоры</h2>
-<p class="section-desc anim" style="animation-delay:.3s">Проект поддерживается благодаря этим замечательным проектам.</p>
+<p class="section-desc anim" style="animation-delay:.3s">Проект жив благодаря этим замечательным проектам.</p>
 
 <div style="display:grid;gap:12px">
 <div class="anim" style="background:var(--card);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;transition:all .3s">
@@ -533,7 +533,7 @@ var statsObs=new IntersectionObserver(function(e){
 e.forEach(function(entry){
 if(entry.isIntersecting){
 var nums=entry.target.querySelectorAll('.stat-num');
-var vals=[58,15,'0₽'];
+var vals=[58,24,'0₽'];
 nums.forEach(function(n,i){
 animateNumber(n,vals[i],i*0.3);
 });
