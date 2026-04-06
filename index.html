@@ -290,7 +290,7 @@ footer p+p{margin-top:8px}
 
 <div class="stats">
 <div class="stat anim" style="animation-delay:.1s"><div class="stat-num">58</div><div class="stat-label">Прокси для тг</div></div>
-<div class="stat anim" style="animation-delay:.2s"><div class="stat-num">24</div><div class="stat-label">Серверов</div></div>
+<div class="stat anim" style="animation-delay:.2s"><div class="stat-num">95</div><div class="stat-label">Серверов</div></div>
 <div class="stat anim" style="animation-delay:.3s"><div class="stat-num">0₽</div><div class="stat-label">Цена</div></div>
 </div>
 <div class="config anim">
@@ -533,7 +533,7 @@ var statsObs=new IntersectionObserver(function(e){
 e.forEach(function(entry){
 if(entry.isIntersecting){
 var nums=entry.target.querySelectorAll('.stat-num');
-var vals=[58,24,'0₽'];
+var vals=[58,95,'0₽'];
 nums.forEach(function(n,i){
 animateNumber(n,vals[i],i*0.3);
 });
