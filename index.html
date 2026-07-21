@@ -1,1 +1,278 @@
-ребрендинг 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bezlista</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --md-surface: #121316;
+    --md-surface-container: #1D2024;
+    --md-surface-container-high: #262A2F;
+    --md-on-surface: #E3E2E6;
+    --md-on-surface-variant: #C3C6CF;
+    --md-outline: #8D9199;
+    --md-outline-variant: #43474E;
+    --md-primary: #6CDBC4;
+    --md-on-primary: #00382E;
+    --md-primary-container: #005043;
+    --md-on-primary-container: #88F8DD;
+    --md-elev1: 0 1px 3px rgba(0,0,0,0.45), 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--md-surface);
+    color:var(--md-on-surface);
+    font-family:'Roboto', system-ui, sans-serif;
+    padding:24px;
+  }
+
+  main{
+    width:100%;
+    max-width:420px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .brand{
+    font-size:1.4rem;
+    font-weight:500;
+    letter-spacing:0.01em;
+    color:var(--md-on-surface);
+    text-align:center;
+    margin:0 0 8px;
+  }
+  .brand .dot{
+    display:inline-block;
+    width:8px; height:8px;
+    border-radius:50%;
+    background:var(--md-primary);
+    margin-right:8px;
+    vertical-align:middle;
+  }
+
+  .card{
+    background:var(--md-surface-container);
+    border-radius:24px;
+    padding:20px;
+    box-shadow:var(--md-elev1);
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+
+  .card-body{ flex:1; min-width:0; }
+  .card-label{
+    font-size:0.95rem;
+    font-weight:500;
+    color:var(--md-on-surface);
+    margin:0 0 2px;
+  }
+  .card-sub{
+    font-family:'Roboto Mono', ui-monospace, monospace;
+    font-size:0.72rem;
+    color:var(--md-on-surface-variant);
+    margin:0;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .btn{
+    flex:none;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    height:40px;
+    padding:0 20px;
+    border-radius:20px;
+    border:none;
+    background:var(--md-primary-container);
+    color:var(--md-on-primary-container);
+    font-family:'Roboto', system-ui, sans-serif;
+    font-size:0.875rem;
+    font-weight:500;
+    letter-spacing:0.01em;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition:background 0.2s ease;
+    white-space:nowrap;
+  }
+  .btn::after{
+    content:"";
+    position:absolute; inset:0;
+    background:currentColor;
+    opacity:0;
+    transition:opacity 0.15s ease;
+  }
+  .btn:hover::after{ opacity:0.08; }
+  .btn:active::after{ opacity:0.14; }
+  .btn:focus-visible{
+    outline:2px solid var(--md-primary);
+    outline-offset:2px;
+  }
+  .btn.is-copied{
+    background:var(--md-primary);
+    color:var(--md-on-primary);
+  }
+
+  .icon-link{
+    flex:none;
+    width:40px; height:40px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--md-on-surface-variant);
+    text-decoration:none;
+    position:relative;
+    overflow:hidden;
+  }
+  .icon-link::after{
+    content:"";
+    position:absolute; inset:0;
+    background:currentColor;
+    opacity:0;
+    transition:opacity 0.15s ease;
+  }
+  .icon-link:hover::after{ opacity:0.08; }
+  .icon-link:focus-visible{ outline:2px solid var(--md-primary); outline-offset:2px; }
+  .icon-link svg{ width:20px; height:20px; position:relative; }
+
+  .divider{
+    height:1px;
+    background:var(--md-outline-variant);
+    margin:4px 4px 0;
+  }
+
+  .card-link{
+    text-decoration:none;
+    color:inherit;
+    cursor:pointer;
+    transition:background 0.2s ease;
+  }
+  .card-link:hover{ background:var(--md-surface-container-high); }
+  .card-link:focus-visible{ outline:2px solid var(--md-primary); outline-offset:2px; }
+
+  .tg-icon{
+    flex:none;
+    width:40px; height:40px;
+    border-radius:50%;
+    background:var(--md-primary-container);
+    color:var(--md-on-primary-container);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tg-icon svg{ width:20px; height:20px; }
+
+  .chevron{
+    flex:none;
+    width:20px; height:20px;
+    color:var(--md-outline);
+  }
+
+  @media (max-width:360px){
+    .card{ flex-wrap:wrap; }
+    .btn{ width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<main>
+  <p class="brand"><span class="dot" aria-hidden="true"></span>bezlista</p>
+
+  <div class="card">
+    <div class="card-body">
+      <p class="card-label">Конфиг</p>
+      <p class="card-sub">raw.githubusercontent.com/&hellip;/conf1g.txt</p>
+    </div>
+    <button class="btn" type="button" data-copy="https://raw.githubusercontent.com/bezlista/bezlista.github.io/refs/heads/main/conf1g.txt">Копировать</button>
+    <a class="icon-link" href="https://raw.githubusercontent.com/bezlista/bezlista.github.io/refs/heads/main/conf1g.txt" target="_blank" rel="noopener" aria-label="Открыть ссылку на конфиг">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <p class="card-label">Зеркало</p>
+      <p class="card-sub">gitverse.ru/&hellip;/conf1g.txt</p>
+    </div>
+    <button class="btn" type="button" data-copy="https://gitverse.ru/api/repos/bezlista/bezlista_mirror/raw/branch/master/conf1g.txt">Копировать</button>
+    <a class="icon-link" href="https://gitverse.ru/api/repos/bezlista/bezlista_mirror/raw/branch/master/conf1g.txt" target="_blank" rel="noopener" aria-label="Открыть ссылку на зеркало">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="divider" role="separator"></div>
+
+  <a class="card card-link" href="https://bezlista.t.me" target="_blank" rel="noopener">
+    <span class="tg-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 4L3 11.5L9 13.5M21 4L18 20L9 13.5M21 4L9 13.5M9 13.5V19L12.5 15.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <div class="card-body">
+      <p class="card-label">Телеграм-канал</p>
+      <p class="card-sub">bezlista.t.me — новости и обновления</p>
+    </div>
+    <svg class="chevron" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</main>
+
+<script>
+  document.querySelectorAll('[data-copy]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var text = btn.getAttribute('data-copy');
+      var original = btn.textContent;
+
+      function done(){
+        btn.textContent = 'Скопировано';
+        btn.classList.add('is-copied');
+        clearTimeout(btn._resetTimer);
+        btn._resetTimer = setTimeout(function(){
+          btn.textContent = original;
+          btn.classList.remove('is-copied');
+        }, 2000);
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function(){ fallbackCopy(text, done); });
+      } else {
+        fallbackCopy(text, done);
+      }
+    });
+  });
+
+  function fallbackCopy(text, cb){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    cb();
+  }
+</script>
+
+</body>
+</html>
