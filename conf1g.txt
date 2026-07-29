@@ -15,3 +15,4 @@ vless://72b9b9bd-8cb9-49ed-bfd4-20fab16829ba@213.219.212.14:443?encryption=none&
 hysteria2://9b08bee0-2615-46c6-8939-54b575517a26@78.159.250.230:8443?sni=quic.tyr-agentstvo.tech&insecure=0&allowInsecure=0#🇩🇪%20%40bezlista
 hysteria2://9b08bee0-2615-46c6-8939-54b575517a26@78.159.250.230:443?sni=quic.tyr-agentstvo.tech&insecure=0&allowInsecure=0#🇩🇪%20%40bezlista
 vless://cc61ea7c-92f2-4c2d-b272-32cfe8fdf99f@87.242.100.40:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=CMkW1axrhEXoiJ6anMz9XEjlfqlAtEZya7L0b5ZPMyw&security=reality&sid=c7e42004e5f024be&sni=sun6-21.userapi.com&type=tcp#🇱🇹%20%40bezlista
+vless://55d5c995-b3c7-4055-98d2-af263d7ba8f1@109.120.188.14:5443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=max.ru&fp=chrome&pbk=jDA5u7KewO2XfKNT7OTOqIHyWu8-I32xuTDFVWcwJyA&sid=09eebbb25f39d7ce&type=tcp&headerType=none#🇨🇭%20%40bezlista
