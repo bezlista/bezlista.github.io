@@ -1,8 +1,7 @@
 #profile-title: t.me/bezlista
 #profile-update-interval: 1
 #support-url: https://t.me/bezlistabot
-#announce: Обход белых списков. Подписка под черные списки будет позже
-#subscription-userinfo: upload=1984; download=1984; total=1984; expire=1984
+#announce: Обход белых списков. Проверяйте доступность пингом
 
 vless://72b9b9bd-8cb9-49ed-bfd4-20fab16829ba@213.219.212.14:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=pro-ru-213.emrata.top&fp=qq&pbk=AAZjVvbC7AwPKot_1ygO5VMpN7XYifCA7lG0RNR5sEk&type=tcp&headerType=none#🇷🇺%20%40bezlista
 hysteria2://9b08bee0-2615-46c6-8939-54b575517a26@78.159.250.230:443?sni=quic.tyr-agentstvo.tech&insecure=0&allowInsecure=0#🇩🇪%20%40bezlista
